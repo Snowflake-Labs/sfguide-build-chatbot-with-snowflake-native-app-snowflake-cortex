@@ -62,36 +62,15 @@ RETURN 'Search Created go to Streamlit App';
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE core.register_single_callback(ref_name STRING, operation STRING, ref_or_alias STRING)
- RETURNS STRING
- LANGUAGE SQL
- AS $$
-      BEGIN
-      CASE (operation)
-         WHEN 'ADD' THEN
-            SELECT system$set_reference(:ref_name, :ref_or_alias);
-         WHEN 'REMOVE' THEN
-            SELECT system$remove_reference(:ref_name);
-         WHEN 'CLEAR' THEN
-            SELECT system$remove_reference(:ref_name);
-         ELSE
-            RETURN 'Unknown operation: ' || operation;
-      END CASE;
-      RETURN 'Operation ' || operation || ' succeeds.';
-      END;
-   $$;
-
-
 -- 4. Grant appropriate privileges over these objects to your application roles.
 GRANT USAGE ON PROCEDURE core.table_chunker() TO APPLICATION ROLE app_public;
 GRANT USAGE ON PROCEDURE core.create_cortex_search() TO APPLICATION ROLE app_public;
-GRANT USAGE ON PROCEDURE core.register_single_callback( STRING,  STRING,  STRING) TO APPLICATION ROLE app_public;
 
 
 -- 5. Create a streamlit object using the code you wrote in you wrote in src/module-ui, as shown below.
 -- The `from` value is derived from the stage path described in snowflake.yml
 CREATE OR REPLACE STREAMLIT core.ui
-     FROM '/src/'
+     FROM '/'
      MAIN_FILE = 'ui.py';
 
 -- 6. Grant appropriate privileges over these objects to your application roles.

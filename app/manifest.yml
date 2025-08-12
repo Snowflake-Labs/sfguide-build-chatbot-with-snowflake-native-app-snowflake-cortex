@@ -15,15 +15,3 @@ artifacts:
 privileges:
  - IMPORTED PRIVILEGES ON SNOWFLAKE DB:
       description: "Enables application to use Cortex Functions"
-
-
-
-references:
-  - MOVIES_TABLE:
-      label: "Movies Table"
-      description: "Table created on Movie Data"
-      privileges:
-        - SELECT
-      object_type: TABLE
-      multi_valued: false
-      register_callback: core.register_single_callback
