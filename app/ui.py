@@ -6,7 +6,6 @@ import time
 MODELS = [
     "mistral-large",
     "snowflake-arctic",
-    "llama3-70b",
     "llama3-8b",
 ]
 
@@ -60,13 +59,6 @@ def init_config_options():
     with st.sidebar.expander("Advanced options"):
         st.selectbox("Select model:", MODELS, key="model_name")
         st.number_input(
-            "Select number of context chunks",
-            value=5,
-            key="num_retrieved_chunks",
-            min_value=1,
-            max_value=10,
-        )
-        st.number_input(
             "Select number of messages to use in chat history",
             value=5,
             key="num_chat_messages",
@@ -97,7 +89,7 @@ def query_cortex_search_service(query):
     )
 
     context_documents = cortex_search_service.search(
-        query, columns=[], limit=st.session_state.num_retrieved_chunks
+        query, columns=[]
     )
     results = context_documents.results
 
